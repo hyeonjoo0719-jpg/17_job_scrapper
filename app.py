@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from scrapper import search_incruit
+from scrapper import search_saramin
 
 app = Flask(__name__)
 
@@ -12,8 +13,10 @@ def search():
     keyword = request.args.get('keyword')
     print(keyword)
     jobs = search_incruit(keyword)
+    jobs.extend(search_saramin(keyword))
     print(jobs)
     return render_template('search.html', jobs = enumerate(jobs))
+
 
 
 if __name__ == '__main__':

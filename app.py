@@ -12,12 +12,14 @@ def hello_world():
 def search():
     keyword = request.args.get('keyword')
     print(keyword)
-    jobs = search_incruit(keyword)
+    jobs = search_incruit(keyword, 2)
     jobs.extend(search_saramin(keyword))
     print(jobs)
-    return render_template('search.html', jobs = enumerate(jobs))
+    return render_template('search.html', jobs = enumerate(jobs), keyword=keyword, count=len(jobs))
 
-
+@app.route('/file')
+def file():
+    return 'file'
 
 if __name__ == '__main__':
     app.run(debug=True)

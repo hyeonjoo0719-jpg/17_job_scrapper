@@ -22,7 +22,6 @@ def search_incruit(keyword, page=1):
             location = li.find('div', class_='cl_md').find_all('span')[0].text
             link = li.find('div', class_='cell_mid').find('div', class_='cl_top').find('a').get('href')
 
-
             job_data = {
                 'company' : company,
                 'title' : title,

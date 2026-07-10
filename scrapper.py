@@ -46,7 +46,7 @@ def search_saramin(keyword, page =1):
             company = saram.find('strong' , class_='corp_name').text
             title = saram.find('div', class_ = 'area_job').find('h2', class_ = 'job_tit').find('a').text
             location = saram.find('div', class_ = 'job_condition').find_all('span')[0].text
-            link = saram.find('div', class_ = 'area_job').find('h2', class_='job_tit').find('a').get('href')
+            link = "https://www.saramin.co.kr" + saram.find('div', class_ = 'area_job').find('h2', class_='job_tit').find('a').get('href')
 
             job_data2 = {
                 'company' : company,
@@ -55,7 +55,10 @@ def search_saramin(keyword, page =1):
                 'link' : link
             }
             jobs_saramin.append(job_data2)
+
     return jobs_saramin
+
+
 
 # if __name__ == '__main__':
 #     result = search_saramin('간호사',2)

@@ -64,4 +64,3 @@ def search_saramin(keyword):
     return jobs_saramin
 
     
-    

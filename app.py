@@ -6,7 +6,7 @@ from file import save_to_csv
 app = Flask(__name__)
 
 db = {}
-page = 5
+page = 3
 
 @app.route('/')
 def hello_world():
@@ -18,26 +18,27 @@ def search():
 
     if keyword == "":
         return redirect('/')
-    
     if keyword in db:
         jobs = db[keyword]
     else:
-        jobs = search_incruit(keyword, page)
+        jobs1 = search_incruit(keyword, page)
+        jobs2 = search_saramin(keyword, page)
+        jobs = jobs1 + jobs2
         db[keyword] = jobs
 
-
-    jobs.extend(search_saramin(keyword))
     return render_template('search.html', jobs = enumerate(jobs), keyword=keyword, count=len(jobs))
 
 @app.route('/file')
 def file():
     keyword = request.args.get('keyword')
+
     if keyword == '':
         return redirect('/')
     if keyword in db:
         jobs = db[keyword]
     else:
         jobs = search_incruit(keyword, page)
+        jobs = jobs.append(search_saramin(keyword, page))
     
     save_to_csv(jobs)
     return send_file("./downloads.csv", as_attachment = True)

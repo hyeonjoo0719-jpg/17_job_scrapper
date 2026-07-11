@@ -8,12 +8,13 @@
   </head>
   <body>
     <main class="container">
-      <h1>{{ count }} 개의 {{ keyword }} 검색 한 결과입니다</h1>
-      <p>인크루트, 사람인 사이트의 검색결과입니다.</p>
+      <h1>{{ incruit_count + saramin_count }} 개의 {{ keyword }} 검색 한 결과입니다</h1>
       <a href="/file?keyword={{keyword}}">
         <button>데이터 다운로드</button>
       </a>
       <p></p>
+
+      <h2>인크루트 사이트의 검색결과입니다. ({{ incruit_count }}건)</h2>
       <table>
         <thead data-theme="dark">
           <tr>
@@ -24,7 +25,31 @@
           </tr>
         </thead>
         <tbody>
-          {% for num, job in jobs %}
+          {% for num, job in incruit_jobs %}
+          <tr>
+            <td>{{ num + 1 }}</td>
+            <td>{{ job["company"] }}</td>
+            <td>
+              <a href="{{ job['link'] }}" target="_blank">{{ job["title"] }}</a>
+            </td>
+            <td>{{ job["location"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2>사람인 사이트의 검색결과입니다. ({{ saramin_count }}건)</h2>
+      <table>
+        <thead data-theme="dark">
+          <tr>
+            <th>No</th>
+            <th>회사</th>
+            <th>공고제목</th>
+            <th>지역</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for num, job in saramin_jobs %}
           <tr>
             <td>{{ num + 1 }}</td>
             <td>{{ job["company"] }}</td>

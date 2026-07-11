@@ -19,14 +19,20 @@ def search():
     if keyword == "":
         return redirect('/')
     if keyword in db:
-        jobs = db[keyword]
+        jobs1, jobs2 = db[keyword]
     else:
         jobs1 = search_incruit(keyword, page)
         jobs2 = search_saramin(keyword, page)
-        jobs = jobs1 + jobs2
-        db[keyword] = jobs
+        db[keyword] = (jobs1, jobs2)
 
-    return render_template('search.html', jobs = enumerate(jobs), keyword=keyword, count=len(jobs))
+    return render_template(
+        'search.html',
+        incruit_jobs=enumerate(jobs1),
+        saramin_jobs=enumerate(jobs2),
+        keyword=keyword,
+        incruit_count=len(jobs1),
+        saramin_count=len(jobs2),
+    )
 
 @app.route('/file')
 def file():
@@ -35,13 +41,14 @@ def file():
     if keyword == '':
         return redirect('/')
     if keyword in db:
-        jobs = db[keyword]
+        jobs1, jobs2 = db[keyword]
     else:
-        jobs = search_incruit(keyword, page)
-        jobs = jobs.append(search_saramin(keyword, page))
-    
-    save_to_csv(jobs)
+        jobs1 = search_incruit(keyword, page)
+        jobs2 = search_saramin(keyword, page)
+        db[keyword] = (jobs1, jobs2)
+
+    save_to_csv(jobs1 + jobs2)
     return send_file("./downloads.csv", as_attachment = True)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
